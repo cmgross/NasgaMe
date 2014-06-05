@@ -40,4 +40,8 @@ module public Scrape =
 
     let scrapeClassesForYear (url: string, multiFormValues: ResizeArray<Collections.Specialized.NameValueCollection>)  =
         multiFormValues
-        |> Seq.map(fun fv -> scrapeYearAndClass (url,fv))
+        |> Seq.map(fun fv -> 
+            yearAndClassResultsAsync (url,fv))
+            |> Async.Parallel
+            |> Async.RunSynchronously
+      
