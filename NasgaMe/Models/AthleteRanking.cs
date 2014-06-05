@@ -1,6 +1,10 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Xml.Linq;
+using HtmlAgilityPack;
 
 namespace NasgaMe.Models
 {
@@ -33,22 +37,30 @@ namespace NasgaMe.Models
         public string WfhThrow { get; set; }
         public int WfhPoints { get; set; }
 
-        //private HtmlNode GetResults(string athleteClass, string year) //example C# synchronous 
-        //{
-        //    using (var client = new WebClient())
-        //    {
-        //        var formValues = new NameValueCollection
-        //                {
-        //                    {"class", athleteClass},
-        //                    {"rankyear", year.ToString()},
-        //                    {"x", "26"},
-        //                    {"y", "10"}
-        //                };
-        //        byte[] byteArray = client.UploadValues("http://nasgaweb.com/dbase/rank_overall.asp", formValues);
-        //        var document = new HtmlDocument();
-        //        document.LoadHtml(Encoding.ASCII.GetString(byteArray));
-        //        return document.DocumentNode.Descendants().FirstOrDefault(n => n.Name == "body");
-        //    }
-        //}
+        public static List<string[]> GetResults(string athleteClass, string year) //example C# synchronous 
+        {
+            using (var client = new WebClient())
+            {
+                var formValues = new NameValueCollection
+                        {
+                            {"class", athleteClass},
+                            {"rankyear", year},
+                            {"x", "26"},
+                            {"y", "10"}
+                        };
+                byte[] byteArray = client.UploadValues("http://nasgaweb.com/dbase/rank_overall.asp", formValues);
+                var document = new HtmlDocument();
+                document.LoadHtml(Encoding.ASCII.GetString(byteArray));
+                var body = document.DocumentNode.Descendants().FirstOrDefault(n => n.Name == "body");
+                var table = body.Descendants("table").FirstOrDefault(t => t.Attributes.Contains("cellpadding") && t.Attributes["cellpadding"].Value == "1");
+                var rows =
+                    table.Descendants("tr")
+                        .Where(r => r.Attributes.Contains("bgcolor") && r.Attributes["bgcolor"].Value != "#99ccff");
+                List<string[]> athleteDatas =
+                    rows.Select(t => t.Descendants("td").Select(d => d.InnerText).ToArray()).ToList();
+
+                return athleteDatas;
+            }
+        }
     }
 }

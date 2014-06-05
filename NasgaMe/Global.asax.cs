@@ -7,6 +7,8 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using NasgaMe.Models;
+using Scraper;
 
 namespace NasgaMe
 {
@@ -19,7 +21,6 @@ namespace NasgaMe
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //TODO seed method to get prior years as far back as the database goes: 2009
-
             //TODO method to check if the data was already updated today
             //TODO if data already updated, return; else purge data, scrape data like below, then update data update date
             //TODO decide format for storing updated date. Done by class or overall?
@@ -29,22 +30,31 @@ namespace NasgaMe
             var currentYear = DateTime.Now.Year;
             var athleteClasses = WebConfigurationManager.AppSettings["AthleteClasses"].Split(',');
             var url = WebConfigurationManager.AppSettings["AthleteUrl"];
-            foreach (var athleteClass in athleteClasses) //TODO launch these at the same time using async
+            //var multiFormValues = new List<NameValueCollection>();
+            var results = new List<string[]>();
+            DateTime start = DateTime.Now;
+           
+           
+            foreach (var athleteClass in athleteClasses)
             {
-                //get list of results from fsharp code, write them to database
-            }
-            //var x = NasgaScrape.AddNumbers(10, 20);
-            //var y = NasgaScrape.SubtractNumbers(10, 20);
-            var formValues = new NameValueCollection
+                var formValues = new NameValueCollection  //"class=Pro&rankyear=2013&x=26&y=10"
                         {
-                            {"class", "Amateur"},
+                            {"class", athleteClass},
                             {"rankyear", currentYear.ToString()},
                             {"x", "26"},
                             {"y", "10"}
                         };
-            byte[] x = Scraper.Scrape.syncScrape(url, formValues);
-            //can pass in an enumerable of namevaluecollections and foreach one scrape
-            //get list of results back for given year and store it in database, then update
+                results.AddRange(Scrape.scrapeYearAndClass(url, formValues));//this is the call to the F# library
+                //multiFormValues.Add(formValues);
+            }
+            TimeSpan timeDiff = DateTime.Now - start; //~6 seconds
+            var totalTime = timeDiff.TotalSeconds;
+            //var resultsForYear = Scraper.Scrape.scrapeClassesForYear(url, multiFormValues);
+
+
+            //var cResults = AthleteRanking.GetResults("All+Amateurs", currentYear.ToString());
+            //get list of results back for given year and store it in database, then update http://stackoverflow.com/questions/11721360/is-it-possible-to-create-batch-insert
+            //get back list of string[]s, sent to method that takes List<string[]> and converts to AthleteRanking, pass to method that saves List<AthleteRanking> to db
         }
     }
 }

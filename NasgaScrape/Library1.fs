@@ -1,29 +1,43 @@
 ﻿namespace Scraper
-open System.Net
 open System
-open System.IO
+open System.Net
+open System.Text
+open HtmlAgilityPack.FSharp
+open FSharp.Data
 
 module public Scrape = 
-//    let AddNumbers (a, b) = a + b
-//    let SubtractNumbers a b = a - b
-//    let Subtract10 a = a - 10
-//    let fetchAthleteRankingsForClassAndYear url =    //take a class and a year, screen scrape for that year    
-//        let req = WebRequest.Create(Uri(url)) 
-//        use resp = req.GetResponse() 
-//        use stream = resp.GetResponseStream() 
-//        use reader = new IO.StreamReader(stream) 
-//        let html = reader.ReadToEnd() 
-//        printfn "finished downloading %s" url 
+    //for a given year and class, get the resulting page as a string    
+    let yearAndClassResults (url: string, formValues: Collections.Specialized.NameValueCollection)  =
+        let webclient = new WebClient()
+        Encoding.ASCII.GetString(webclient.UploadValues(url,formValues))
 
-//webclient example:http://en.wikibooks.org/wiki/F_Sharp_Programming/Async_Workflows
-    let syncScrape (url: string, formValues: Collections.Specialized.NameValueCollection)  =
-        let webclient = new System.Net.WebClient()
-        webclient.UploadValues(url,formValues)
-        //todo use HtmlAgilityPack here to load the HTML document and return the htmlnode
-        //let document = new HtmlDocument()
-  
-    
-//    sites 
-//|> List.map fetchUrlAsync  // make a list of async tasks
-//|> Async.Parallel          // set up the tasks to run in parallel
-//|> Async.RunSynchronously  // start them off
+    let yearAndClassResultsAsync (url: string, formValues: Collections.Specialized.NameValueCollection)  =
+            let webclient = new WebClient()
+            Encoding.ASCII.GetString(webclient.UploadValues(url,formValues))
+            |> Http.AsyncRequestString
+
+
+           
+    //get all the row's data as a string array from the downloaded page's HTML into string
+    let resultsBody resultsPage =
+        resultsPage
+        |> createDoc
+        |> descendants "table"
+        |> Seq.filter (hasAttr "cellpadding" "1")
+        |> Seq.head
+        |> descendants "tr"
+        |> Seq.filter(doesntHaveAttr "bgcolor" "#99ccff")
+        //|> Seq.map (descendants "td" >> Seq.map innerText >> Array.ofSeq) //same as lines below
+        |> Seq.map (fun line ->
+            line
+            |> descendants "td"
+            |> Seq.map innerText
+            |> Array.ofSeq)
+
+    let scrapeYearAndClass (url: string, formValues: Collections.Specialized.NameValueCollection)  =
+        yearAndClassResults (url,formValues)
+        |> resultsBody
+
+    let scrapeClassesForYear (url: string, multiFormValues: ResizeArray<Collections.Specialized.NameValueCollection>)  =
+        multiFormValues
+        |> Seq.map(fun fv -> scrapeYearAndClass (url,fv))
