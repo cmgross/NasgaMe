@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using NasgaScraper;
 
 namespace NasgaMe
 {
@@ -28,12 +28,22 @@ namespace NasgaMe
 
             var currentYear = DateTime.Now.Year;
             var athleteClasses = WebConfigurationManager.AppSettings["AthleteClasses"].Split(',');
+            var url = WebConfigurationManager.AppSettings["AthleteUrl"];
             foreach (var athleteClass in athleteClasses) //TODO launch these at the same time using async
             {
                 //get list of results from fsharp code, write them to database
             }
             //var x = NasgaScrape.AddNumbers(10, 20);
             //var y = NasgaScrape.SubtractNumbers(10, 20);
+            var formValues = new NameValueCollection
+                        {
+                            {"class", "Amateur"},
+                            {"rankyear", currentYear.ToString()},
+                            {"x", "26"},
+                            {"y", "10"}
+                        };
+            byte[] x = Scraper.Scrape.syncScrape(url, formValues);
+            //can pass in an enumerable of namevaluecollections and foreach one scrape
             //get list of results back for given year and store it in database, then update
         }
     }

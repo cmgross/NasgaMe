@@ -1,4 +1,8 @@
-﻿namespace NasgaMe.Models
+﻿using System.Collections.Specialized;
+using System.Net;
+using System.Text;
+
+namespace NasgaMe.Models
 {
     public class AthleteRanking
     {
@@ -28,5 +32,23 @@
         public int SheafPoints { get; set; }
         public string WfhThrow { get; set; }
         public int WfhPoints { get; set; }
+
+        //private HtmlNode GetResults(string athleteClass, string year) //example C# synchronous 
+        //{
+        //    using (var client = new WebClient())
+        //    {
+        //        var formValues = new NameValueCollection
+        //                {
+        //                    {"class", athleteClass},
+        //                    {"rankyear", year.ToString()},
+        //                    {"x", "26"},
+        //                    {"y", "10"}
+        //                };
+        //        byte[] byteArray = client.UploadValues("http://nasgaweb.com/dbase/rank_overall.asp", formValues);
+        //        var document = new HtmlDocument();
+        //        document.LoadHtml(Encoding.ASCII.GetString(byteArray));
+        //        return document.DocumentNode.Descendants().FirstOrDefault(n => n.Name == "body");
+        //    }
+        //}
     }
 }
