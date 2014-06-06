@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using HtmlAgilityPack;
 
@@ -12,13 +13,13 @@ namespace NasgaMe.Models
     {
         public string Id
         {
-            get { return Year + "/" + Class + "/" + Rank; }
+            get { return string.Format("{0}/{1}/{2}", Year, Class, Rank); }
         }
         public string Year { get; set; }
         public string Class { get; set; }
-        public int Rank { get; set; }
+        public string Rank { get; set; }
         public string Name { get; set; }
-        public int TotalPoints { get; set; }
+        public string TotalPoints { get; set; }
         public string BraemarThrow { get; set; } //save in the format it needs to be in
         public int BraemarPoints { get; set; }
         public string OpenThrow { get; set; }
@@ -61,6 +62,37 @@ namespace NasgaMe.Models
 
                 return athleteDatas;
             }
+        }
+
+        public static AthleteRanking ParseAthleteData(string[] athleteData)
+        {
+            string[] yearAndClass = Regex.Split(athleteData[0], "&nbsp;:&nbsp;");
+            var athleteRanking = new AthleteRanking
+            {
+                Year = yearAndClass[1],
+                Class = yearAndClass[0].Replace("All+", ""),
+                Rank = athleteData[1],
+                Name = athleteData[2],
+                TotalPoints = athleteData[3],
+                BraemarThrow = athleteData[4],
+                BraemarPoints = int.Parse(athleteData[5]),
+                OpenThrow = athleteData[6],
+                OpenPoints = int.Parse(athleteData[7]),
+                HeavyWeightThrow = athleteData[8],
+                HeavyWeightPoints = int.Parse(athleteData[9]),
+                LightWeightThrow = athleteData[10],
+                LightWeightPoints = int.Parse(athleteData[11]),
+                HeavyHammerThrow = athleteData[12],
+                HeavyHammerPoints = int.Parse(athleteData[13]),
+                LightHammerThrow = athleteData[14],
+                LightHammerPoints = int.Parse(athleteData[15]),
+                CaberPoints = int.Parse(athleteData[16]),
+                SheafThrow = athleteData[17],
+                SheafPoints = int.Parse(athleteData[18]),
+                WfhThrow = athleteData[19],
+                WfhPoints = int.Parse(athleteData[20])
+            };
+            return athleteRanking;
         }
     }
 }
