@@ -1,25 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using NasgaMe.DataLayer;
 using NasgaMe.Models;
 using Scraper;
+using ServiceStack.OrmLite;
 
 namespace NasgaMe
 {
 	public class MvcApplication : System.Web.HttpApplication
 	{
+		public static OrmLiteConnectionFactory DbFactory;
 		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+			DbFactory =
+			 new OrmLiteConnectionFactory(
+				 ConfigurationManager.ConnectionStrings["NasgaMe"].ConnectionString,
+				 SqlServerDialect.Provider);
+
+			using (IDbConnection db = DbFactory.OpenDbConnection())
+			{
+				const bool overwrite = false;
+				db.CreateTables(overwrite, typeof(AthleteRanking));
+			}
+
 			//TODO seed method to get prior years as far back as the database goes: 2009
 			//TODO method to check if the data was already updated today
 			//TODO if data already updated, return; else purge data, scrape data like below, then update data update date
@@ -32,13 +49,14 @@ namespace NasgaMe
 			var url = WebConfigurationManager.AppSettings["AthleteUrl"];
 			var allParameters = athleteClasses.Select(athleteClass => new List<Tuple<string, string>>
 			{
-			    new Tuple<string, string>("class", athleteClass), new Tuple<string, string>("rankyear", currentYear.ToString())
+				new Tuple<string, string>("class", athleteClass), new Tuple<string, string>("rankyear", currentYear.ToString())
 			}).ToList();
 
-		    var resultsForYear = Scrape.asyncScrape(url, allParameters);
+			var resultsForYear = Scrape.asyncScrape(url, allParameters);
 			List<AthleteRanking> athleteRankings = resultsForYear.Select(AthleteRanking.ParseAthleteData).ToList();
-			//pass to datalayer method that takes a list of athlete rankings, opens database connection, and saves them
-			//save updated for the year
+		    var worked = DatabaseService.BulkInsert(athleteRankings);
+		    //pass to datalayer method that takes a list of athlete rankings, opens database connection, and saves them
+		    //save updated for the year
 		}
 	}
 }
