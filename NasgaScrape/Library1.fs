@@ -7,16 +7,11 @@ open FSharp.Data
 
 module public Scrape = 
     //for a given year and class, get the resulting page as a string    
-    let yearAndClassResults (url: string, formValues: Collections.Specialized.NameValueCollection)  =
-        let webclient = new WebClient()
-        Encoding.ASCII.GetString(webclient.UploadValues(url,formValues))
+//    let yearAndClassResults (url: string, formValues: Collections.Specialized.NameValueCollection)  =
+//        let webclient = new WebClient()
+//        Encoding.ASCII.GetString(webclient.UploadValues(url,formValues))
 
-    let yearAndClassResultsAsync (url: string, formValues: Collections.Specialized.NameValueCollection)  =
-            let webclient = new WebClient()
-            Encoding.ASCII.GetString(webclient.UploadValues(url,formValues))
-            |> Http.AsyncRequestString
-
-
+    let yearAndClassResultsAsync url formValues = Http.AsyncRequestString(url, body = FormValues formValues)
            
     //get all the row's data as a string array from the downloaded page's HTML into string
     let resultsBody resultsPage =
@@ -34,14 +29,16 @@ module public Scrape =
             |> Seq.map innerText
             |> Array.ofSeq)
 
-    let scrapeYearAndClass (url: string, formValues: Collections.Specialized.NameValueCollection)  =
-        yearAndClassResults (url,formValues)
-        |> resultsBody
+//    let scrapeYearAndClass (url: string, formValues: Collections.Specialized.NameValueCollection)  =
+//        yearAndClassResults (url,formValues)
+//        |> resultsBody
 
-    let scrapeClassesForYear (url: string, multiFormValues: ResizeArray<Collections.Specialized.NameValueCollection>)  =
-        multiFormValues
-        |> Seq.map(fun fv -> 
-            yearAndClassResultsAsync (url,fv))
+    let asyncScrape url allParameters =
+        allParameters
+        |> Seq.map(fun v ->
+            yearAndClassResultsAsync url v)
             |> Async.Parallel
             |> Async.RunSynchronously
-      
+
+    let parseSite html =
+        Array.mapi (fun s -> resultsBody) html
