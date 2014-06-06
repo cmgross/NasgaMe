@@ -44,7 +44,7 @@ namespace NasgaMe
                 allParameters.Add(parameters);
             }
             var resultsForYear = Scrape.asyncScrape(url, allParameters);
-            var raw = Scrape.parseSite(resultsForYear);
+            //List<string[]> raw = Scrape.parseSite(resultsForYear).ToList();
             
             TimeSpan timeDiff = DateTime.Now - start; //~6 seconds for non-parallel call, 1.97 seconds for parallel async
             var totalTime = timeDiff.TotalSeconds;

@@ -39,6 +39,9 @@ module public Scrape =
             yearAndClassResultsAsync url v)
             |> Async.Parallel
             |> Async.RunSynchronously
-
-    let parseSite html =
-        Array.mapi (fun s -> resultsBody) html
+            |> Array.mapi (fun s -> resultsBody)
+                |> Seq.map (fun m -> 
+                    Array.concat m)
+   
+        
+        
