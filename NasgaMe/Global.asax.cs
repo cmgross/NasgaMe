@@ -14,63 +14,79 @@ using ServiceStack.OrmLite;
 
 namespace NasgaMe
 {
-	public class MvcApplication : HttpApplication
-	{
-		public static OrmLiteConnectionFactory DbFactory;
-		protected void Application_Start()
-		{
-			AreaRegistration.RegisterAllAreas();
-			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			BundleConfig.RegisterBundles(BundleTable.Bundles);
+    public class MvcApplication : HttpApplication
+    {
+        public static OrmLiteConnectionFactory DbFactory;
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-			DbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["NasgaMe"].ConnectionString,SqlServerDialect.Provider);
+            DbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["NasgaMe"].ConnectionString, SqlServerDialect.Provider);
 
-			using (var db = DbFactory.OpenDbConnection())
-			{
-				const bool overwrite = false;
-				db.CreateTables(overwrite, typeof(AthleteRanking));
+            using (var db = DbFactory.OpenDbConnection())
+            {
+                const bool overwrite = false;
+                db.CreateTables(overwrite, typeof(AthleteRanking));
                 db.CreateTables(overwrite, typeof(SystemStatus));
-			}
+            }
 
-		    var systemStatus = DatabaseService.GetSystemStatus();
-		    if (systemStatus.Repopulate) systemStatus.CurrentYearLastUpdated = RepopulateDatabase();
-		    if (systemStatus.CurrentYearLastUpdated.Date < DateTime.Now.Date) UpdateCurrentYearRankings();
+            var systemStatus = DatabaseService.GetSystemStatus();
+            if (systemStatus.Repopulate) systemStatus.CurrentYearLastUpdated = RepopulateDatabase();
+            if (systemStatus.CurrentYearLastUpdated.Date < DateTime.Now.Date) UpdateCurrentYearRankings();
             //TODO later: index page is search, return any atlete matching search name and the respective class, clicking that result loads the results for that athlete
             //TODO later later: flight compare
-		}
+        }
 
         private void UpdateCurrentYearRankings()
         {
             var currentYear = DateTime.Now.Year;
             DatabaseService.PurgeRankingsForYear(currentYear.ToString());
-            if (NasgaScrape()) DatabaseService.Update(new SystemStatus{CurrentYearLastUpdated = DateTime.Now});
+            if (NasgaScrape(new List<int> { currentYear })) DatabaseService.Update(new SystemStatus { CurrentYearLastUpdated = DateTime.Now });
         }
 
         private DateTime RepopulateDatabase()
         {
             DatabaseService.PurgeData();
-            //TODO seed method to get prior years as far back as the database goes: 2009, including current year
-            //method to scrape data that takes classes listing, and list of years, and inserts them
-            //if NasgaScrape() //give it list of all years including current
-            var now = DateTime.Now;
-            var systemStatus = new SystemStatus {Repopulate = false, CurrentYearLastUpdated = now};
+            var yearsToScrape = new List<int>();
+            for (var i = 2009; i < DateTime.Now.AddYears(1).Year; i++)
+                yearsToScrape.Add(i);
+
+            SystemStatus systemStatus;
+            DateTime updatedDateTime;
+            if (NasgaScrape(yearsToScrape))
+            {
+
+                systemStatus = new SystemStatus { Repopulate = false, CurrentYearLastUpdated = DateTime.Now };
+                updatedDateTime = DateTime.Now;
+            }
+            else
+            {
+                systemStatus = new SystemStatus { Repopulate = true };
+                updatedDateTime = new DateTime();
+            }
             DatabaseService.Insert(systemStatus);
-            return now;
+            return updatedDateTime;
         }
 
-	    private bool NasgaScrape() //take list of ints which are the years to scrape
-	    {
+        private bool NasgaScrape(IEnumerable<int> years)
+        {
             var athleteClasses = WebConfigurationManager.AppSettings["AthleteClasses"].Split(',');
             var url = WebConfigurationManager.AppSettings["AthleteUrl"];
-            var allParameters = athleteClasses.Select(athleteClass => new List<Tuple<string, string>>
-			{
-				new Tuple<string, string>("class", athleteClass), new Tuple<string, string>("rankyear", currentYear.ToString())
-			}).ToList();
+            var athleteRankings = new List<AthleteRanking>();
+            foreach (var year in years)
+            {
+                var allParameters = athleteClasses.Select(athleteClass => new List<Tuple<string, string>>
+			    {
+				    new Tuple<string, string>("class", athleteClass), new Tuple<string, string>("rankyear", year.ToString())
+			    }).ToList();
 
-            var resultsForYear = Scrape.asyncScrape(url, allParameters);
-            List<AthleteRanking> athleteRankings = resultsForYear.Select(AthleteRanking.ParseAthleteData).ToList();
-            var worked = DatabaseService.BulkInsert(athleteRankings);
-	    }
-	}
+                var resultsForYear = Scrape.asyncScrape(url, allParameters);
+                athleteRankings.AddRange(resultsForYear.Select(AthleteRanking.ParseAthleteData).ToList());
+            }
+            return DatabaseService.BulkInsert(athleteRankings);
+        }
+    }
 }

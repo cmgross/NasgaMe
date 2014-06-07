@@ -57,12 +57,6 @@ namespace NasgaMe.DataLayer
             return status ?? new SystemStatus {Repopulate = true};
         }
 
-        public static void SetSystemStatus(SystemStatus systemStatus)
-        {
-            
-        }
-
-       
         public static void PurgeData()
         {
             using (var db = MvcApplication.DbFactory.OpenDbConnection())
