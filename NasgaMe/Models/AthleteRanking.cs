@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using HtmlAgilityPack;
+﻿using System.Text.RegularExpressions;
 
 namespace NasgaMe.Models
 {
@@ -20,7 +13,7 @@ namespace NasgaMe.Models
         public string Rank { get; set; }
         public string Name { get; set; }
         public string TotalPoints { get; set; }
-        public string BraemarThrow { get; set; } //save in the format it needs to be in
+        public string BraemarThrow { get; set; }
         public int BraemarPoints { get; set; }
         public string OpenThrow { get; set; }
         public int OpenPoints { get; set; }

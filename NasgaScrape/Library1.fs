@@ -44,7 +44,7 @@ module public Scrape =
             |> descendants "td"
             |> Seq.map innerText
             |> Array.ofSeq)
-        |> Seq.mapi (fun ar -> Array.append [|title|])
+        |> Seq.map (Array.append [|title|])
 
     let asyncScrape url allParameters =
         allParameters

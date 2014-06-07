@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Configuration;
-using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
@@ -16,7 +14,7 @@ using ServiceStack.OrmLite;
 
 namespace NasgaMe
 {
-	public class MvcApplication : System.Web.HttpApplication
+	public class MvcApplication : HttpApplication
 	{
 		public static OrmLiteConnectionFactory DbFactory;
 		protected void Application_Start()
@@ -26,37 +24,53 @@ namespace NasgaMe
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-			DbFactory =
-			 new OrmLiteConnectionFactory(
-				 ConfigurationManager.ConnectionStrings["NasgaMe"].ConnectionString,
-				 SqlServerDialect.Provider);
+			DbFactory = new OrmLiteConnectionFactory(ConfigurationManager.ConnectionStrings["NasgaMe"].ConnectionString,SqlServerDialect.Provider);
 
-			using (IDbConnection db = DbFactory.OpenDbConnection())
+			using (var db = DbFactory.OpenDbConnection())
 			{
 				const bool overwrite = false;
 				db.CreateTables(overwrite, typeof(AthleteRanking));
+                db.CreateTables(overwrite, typeof(SystemStatus));
 			}
 
-			//TODO seed method to get prior years as far back as the database goes: 2009
-			//TODO method to check if the data was already updated today
-			//TODO if data already updated, return; else purge data, scrape data like below, then update data update date
-			//TODO decide format for storing updated date. Done by class or overall?
-			//TODO later: index page is search, return any atlete matching search name and the respective class, clicking that result loads the results for that athlete
-			//TODO later later: flight compare
+		    var systemStatus = DatabaseService.GetSystemStatus();
+		    if (systemStatus.Repopulate) systemStatus.CurrentYearLastUpdated = RepopulateDatabase();
+		    if (systemStatus.CurrentYearLastUpdated.Date < DateTime.Now.Date) UpdateCurrentYearRankings();
+            //TODO later: index page is search, return any atlete matching search name and the respective class, clicking that result loads the results for that athlete
+            //TODO later later: flight compare
+		}
 
-			var currentYear = DateTime.Now.Year;
-			var athleteClasses = WebConfigurationManager.AppSettings["AthleteClasses"].Split(',');
-			var url = WebConfigurationManager.AppSettings["AthleteUrl"];
-			var allParameters = athleteClasses.Select(athleteClass => new List<Tuple<string, string>>
+        private void UpdateCurrentYearRankings()
+        {
+            var currentYear = DateTime.Now.Year;
+            DatabaseService.PurgeRankingsForYear(currentYear.ToString());
+            if (NasgaScrape()) DatabaseService.Update(new SystemStatus{CurrentYearLastUpdated = DateTime.Now});
+        }
+
+        private DateTime RepopulateDatabase()
+        {
+            DatabaseService.PurgeData();
+            //TODO seed method to get prior years as far back as the database goes: 2009, including current year
+            //method to scrape data that takes classes listing, and list of years, and inserts them
+            //if NasgaScrape() //give it list of all years including current
+            var now = DateTime.Now;
+            var systemStatus = new SystemStatus {Repopulate = false, CurrentYearLastUpdated = now};
+            DatabaseService.Insert(systemStatus);
+            return now;
+        }
+
+	    private bool NasgaScrape() //take list of ints which are the years to scrape
+	    {
+            var athleteClasses = WebConfigurationManager.AppSettings["AthleteClasses"].Split(',');
+            var url = WebConfigurationManager.AppSettings["AthleteUrl"];
+            var allParameters = athleteClasses.Select(athleteClass => new List<Tuple<string, string>>
 			{
 				new Tuple<string, string>("class", athleteClass), new Tuple<string, string>("rankyear", currentYear.ToString())
 			}).ToList();
 
-			var resultsForYear = Scrape.asyncScrape(url, allParameters);
-			List<AthleteRanking> athleteRankings = resultsForYear.Select(AthleteRanking.ParseAthleteData).ToList();
-		    var worked = DatabaseService.BulkInsert(athleteRankings);
-		    //pass to datalayer method that takes a list of athlete rankings, opens database connection, and saves them
-		    //save updated for the year
-		}
+            var resultsForYear = Scrape.asyncScrape(url, allParameters);
+            List<AthleteRanking> athleteRankings = resultsForYear.Select(AthleteRanking.ParseAthleteData).ToList();
+            var worked = DatabaseService.BulkInsert(athleteRankings);
+	    }
 	}
 }
