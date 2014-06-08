@@ -39,7 +39,7 @@ namespace NasgaMe.Models
                 Year = yearAndClass[1],
                 Class = yearAndClass[0].Replace("All+", ""),
                 Rank = athleteData[1],
-                Name = athleteData[2],
+                Name = athleteData[2].Replace("&nbsp;", " "),
                 TotalPoints = athleteData[3],
                 BraemarThrow = athleteData[4],
                 BraemarPoints = int.Parse(athleteData[5]),

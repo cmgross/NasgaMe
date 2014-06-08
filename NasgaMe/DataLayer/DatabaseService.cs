@@ -25,8 +25,23 @@ namespace NasgaMe.DataLayer
                 db.Update(value);
             }
         }
+
+        public static IList<T> GetAll<T>(Func<T, bool> predicate)
+        {
+            using (var db = MvcApplication.DbFactory.OpenDbConnection())
+            {
+                return db.Select<T>().Where(predicate).ToList();
+            }
+        }
         #endregion
 
+        public static List<string> GetAthleteClassPairings()
+        {
+            using (var db = MvcApplication.DbFactory.OpenDbConnection())
+            {
+               return db.SqlColumn<string>(db.From<AthleteRanking>().SelectDistinct(a => a.Name + ", " + a.Class));
+            }
+        }
         public static bool BulkInsert(List<AthleteRanking> athleteRankings)
         {
             try
