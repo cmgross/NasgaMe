@@ -37,9 +37,9 @@ namespace NasgaMe.Models
             var athleteRanking = new AthleteRanking
             {
                 Year = yearAndClass[1],
-                Class = yearAndClass[0].Replace("All+", ""),
+                Class = FormatClass(yearAndClass[0]),
                 Rank = athleteData[1],
-                Name = athleteData[2].Replace("&nbsp;", " "),
+                Name = FormatName(athleteData[2]),
                 TotalPoints = athleteData[3],
                 BraemarThrow = athleteData[4],
                 BraemarPoints = int.Parse(athleteData[5]),
@@ -60,6 +60,28 @@ namespace NasgaMe.Models
                 WfhPoints = int.Parse(athleteData[20])
             };
             return athleteRanking;
+        }
+
+        private static string FormatName(string unformattedName)
+        {
+            //data from Nasgaweb contains a nonbreaking space character, as well as commas that we want eliminated
+            return unformattedName.Replace("&nbsp;", " ").Replace(",", " ");
+        }
+
+        private static string FormatClass(string athleteClass)
+        {
+            //classes contain All+ as well as extra pluralization, ie, All+Amateurs, we simply want Amataeur
+            switch (athleteClass)
+            {
+                case "All+Amateurs":
+                    return "Amateur";
+                case "All+Masters":
+                    return "Master";
+                case "All+Women":
+                    return "Women";
+                default:
+                    return athleteClass;
+            }
         }
     }
 }

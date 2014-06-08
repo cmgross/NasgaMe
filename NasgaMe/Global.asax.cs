@@ -36,8 +36,6 @@ namespace NasgaMe
             var systemStatus = DatabaseService.GetSystemStatus();
             if (systemStatus.Repopulate) systemStatus.CurrentYearLastUpdated = RepopulateDatabase();
             if (systemStatus.CurrentYearLastUpdated.Date < DateTime.Now.Date) UpdateCurrentYearRankings();
-            //TODO later: index page is search, return any atlete matching search name and the respective class, clicking that result loads the results for that athlete
-            //TODO later later: flight compare
         }
 
         private void UpdateCurrentYearRankings()

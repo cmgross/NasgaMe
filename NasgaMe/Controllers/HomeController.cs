@@ -24,10 +24,10 @@ namespace NasgaMe.Controllers
                 Data = string.Empty.ToArray(),
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
+            //TODO later: index page is search, return any atlete matching search name and the respective class, clicking that result loads the results for that athlete
+            //TODO later later: flight compare
             //TODO cache this
             var results = DataLayer.DatabaseService.GetAthleteClassPairings().Where(a => a.Contains(term));
-            //TODO check to see how many commas are in the resulting string, if more than one, we need to split on the last one
             return new JsonResult
             {
                 Data = results.ToArray(),
