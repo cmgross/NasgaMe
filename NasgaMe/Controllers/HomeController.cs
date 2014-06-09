@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using NasgaMe.Models;
+using ServiceStack;
 using ServiceStack.Mvc;
 
 namespace NasgaMe.Controllers
@@ -11,9 +13,18 @@ namespace NasgaMe.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index()  
         {
-            return View();
+            return View(new Search());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(Search search)
+        {
+            if (!ModelState.IsValid) return View("Error");
+            var athlete = new Athlete(search.NameAndClass);
+            return View();  //TODO 1 return athlete instance to Results View return View("Results", personalRecordsViewModel);
         }
 
         [HttpGet]
@@ -24,16 +35,15 @@ namespace NasgaMe.Controllers
                 Data = string.Empty.ToArray(),
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-            //TODO later: index page is search, return any atlete matching search name and the respective class, clicking that result loads the results for that athlete
-            //TODO later later: flight compare
-            //TODO cache this
-            var results = DataLayer.DatabaseService.GetAthleteClassPairings().Where(a => a.Contains(term));
+            //TODO 2 cache this
+            term = term.ToLower();
+            var results = DataLayer.DatabaseService.GetAthleteClassPairings().Where(a => a.ToLower().Contains(term));
             return new JsonResult
             {
                 Data = results.ToArray(),
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-        }
+        }//TODO 6 later later: flight compare
 
         protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {

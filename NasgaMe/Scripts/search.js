@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $('#Name').typeahead({
+    $('#NameAndClass').typeahead({
         minLength: 4,
         source: function (term, process) {
             var url = "/Home/GetSearchResults";

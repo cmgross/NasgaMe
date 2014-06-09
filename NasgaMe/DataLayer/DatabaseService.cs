@@ -72,6 +72,15 @@ namespace NasgaMe.DataLayer
             return status ?? new SystemStatus {Repopulate = true};
         }
 
+        public static List<AthleteRanking> GetAthleteRankings(string name, string athleteClass)
+        {
+            using (var db = MvcApplication.DbFactory.OpenDbConnection())
+            {
+               return db.Select<AthleteRanking>(a => a.Name == name && a.Class == athleteClass).ToList();
+            }
+        }
+
+        #region DataDeleteMethods
         public static void PurgeData()
         {
             using (var db = MvcApplication.DbFactory.OpenDbConnection())
@@ -88,5 +97,6 @@ namespace NasgaMe.DataLayer
                 db.Delete<AthleteRanking>(p => p.Year == year);
             }
         }
+        #endregion
     }
 }
