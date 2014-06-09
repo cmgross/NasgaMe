@@ -213,3 +213,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+packages/ServiceStack.4.0.21/lib/net40/ServiceStack.xml
+NasgaMe/App_Data/NasgaMe_log.ldf
+NasgaMe/App_Data/NasgaMe.mdf
+packages/ServiceStack.4.0.21/lib/net40/ServiceStack.xml
+packages/ServiceStack.Host.Mvc.4.0.21/content/jqunback-1.51.min.js
+packages/ServiceStack.Host.Mvc.4.0.21/content/default.htm
+packages/ServiceStack.Host.Mvc.4.0.21/content/WebServiceExamples.cs.pp
+packages/ServiceStack.Client.4.0.21/lib/net40/ServiceStack.Client.xml
