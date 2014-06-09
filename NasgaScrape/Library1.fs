@@ -28,10 +28,22 @@ module public Scrape =
             |> innerText
         title
 
+    let getAthleteCount node =
+        let athleteCount =
+            node
+            |> descendants "table"
+            |> Seq.filter (hasAttr "cellpadding" "1")
+            |> Seq.head
+            |> descendants "tr"
+            |> Seq.filter(doesntHaveAttr "bgcolor" "#99ccff")
+            |> Seq.length
+        athleteCount.ToString()
+
     //get all the row's data as a string array from the downloaded page's HTML into string
     let resultsBody resultsPage =
         let htmlPage = createDoc resultsPage
         let title = getTitle htmlPage
+        let rankCount = getAthleteCount htmlPage
         htmlPage
         |> descendants "table"
         |> Seq.filter (hasAttr "cellpadding" "1")
@@ -44,7 +56,7 @@ module public Scrape =
             |> descendants "td"
             |> Seq.map innerText
             |> Array.ofSeq)
-        |> Seq.map (Array.append [|title|])
+        |> Seq.map (Array.append [|title; rankCount|])
 
     let asyncScrape url allParameters =
         allParameters

@@ -154,6 +154,7 @@
     </Compile>
     <Compile Include="Models\Athlete.cs" />
     <Compile Include="Models\AthleteRanking.cs" />
+    <Compile Include="Models\AthleteRecordsViewModel.cs" />
     <Compile Include="Models\Search.cs" />
     <Compile Include="Models\SystemStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -194,6 +195,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\results.js" />
     <Content Include="Scripts\search.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -208,6 +210,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Results.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

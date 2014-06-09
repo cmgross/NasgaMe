@@ -24,7 +24,8 @@ namespace NasgaMe.Controllers
         {
             if (!ModelState.IsValid) return View("Error");
             var athlete = new Athlete(search.NameAndClass);
-            return View();  //TODO 1 return athlete instance to Results View return View("Results", personalRecordsViewModel);
+            var athleteRecordsViewModel = new AthleteRecordsViewModel(athlete);
+            return View("Results", athleteRecordsViewModel); 
         }
 
         [HttpGet]
