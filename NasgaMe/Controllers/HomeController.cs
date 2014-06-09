@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using NasgaMe.Models;
-using ServiceStack;
 using ServiceStack.Mvc;
+using NasgaMe.DataLayer;
 
 namespace NasgaMe.Controllers
 {
@@ -36,9 +34,9 @@ namespace NasgaMe.Controllers
                 Data = string.Empty.ToArray(),
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-            //TODO 2 cache this
+
             term = term.ToLower();
-            var results = DataLayer.DatabaseService.GetAthleteClassPairings().Where(a => a.ToLower().Contains(term));
+            var results = DatabaseService.GetAthleteClassPairings().Where(a => a.ToLower().Contains(term));
             return new JsonResult
             {
                 Data = results.ToArray(),

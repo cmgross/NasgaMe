@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     $('#NameAndClass').typeahead({
-        minLength: 4,
+        minLength: 1,
         source: function (term, process) {
             var url = "/Home/GetSearchResults";
             $.ajax({

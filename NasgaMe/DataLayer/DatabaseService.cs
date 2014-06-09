@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using NasgaMe.Aspects;
 using NasgaMe.Models;
 using ServiceStack.OrmLite;
 
@@ -35,6 +35,7 @@ namespace NasgaMe.DataLayer
         }
         #endregion
 
+        [Cache]
         public static List<string> GetAthleteClassPairings()
         {
             using (var db = MvcApplication.DbFactory.OpenDbConnection())
