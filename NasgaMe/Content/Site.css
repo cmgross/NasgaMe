@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 70px;
+    padding-top: 0px;
     padding-bottom: 70px;
 }
 
@@ -21,7 +21,7 @@ textarea {
     font-weight: bold;
 }
 
-.table-responsive>.fixed-column {
+.table-responsive > .fixed-column {
     position: absolute;
     display: inline-block;
     width: auto;
@@ -29,7 +29,11 @@ textarea {
 }
 
 @media(min-width:768px) {
-    .table-responsive>.fixed-column {
+    .table-responsive > .fixed-column {
         display: none;
     }
+
+    /*.table-striped > tbody > tr:nth-child(even) > td {
+        background-color: #fff;
+    }*/
 }
