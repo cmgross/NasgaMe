@@ -28,12 +28,12 @@ textarea {
     border-right: 1px solid #ddd;
 }
 
+.results-table {
+        background-color: #303030;
+}
+
 @media(min-width:768px) {
     .table-responsive > .fixed-column {
         display: none;
     }
-
-    /*.table-striped > tbody > tr:nth-child(even) > td {
-        background-color: #fff;
-    }*/
 }
