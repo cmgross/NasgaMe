@@ -36,7 +36,7 @@ textarea {
 .throws {
     margin-right: 0;
     padding-right: 0;
-    
+    width: 90px;
 }
 
 @media(min-width:768px) {
