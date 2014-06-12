@@ -1,110 +1,84 @@
 ﻿@model NasgaMe.Models.AthleteRecordsViewModel
-
+           
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">@Model.Name - @Model.Class</h3>
     </div>
-    <div class="panel-body row">
-        <div class="col-md-1 throws">
-            <table class="table table-bordered table-condensed results-table no-right-border">
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-condensed results-table">
                 <tr>
-                    <td class="throw-label" style="border-right:0;">Year</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">Rank</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">Braemar</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">Open</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">HWFD</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">LWFD</td>
-                </tr>
-                <tr>
-                   <td class="throw-label" style="border-right:0;">HH</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">LH</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">Caber</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">Sheaf</td>
-                </tr>
-                <tr>
-                    <td class="throw-label" style="border-right:0;">WFH</td>
-                </tr>
-            </table>
-        </div>
-        <div class="table-responsive col-md-11 results">
-            <table class="table table-bordered table-condensed results-table">
-                <tr>
+                    <th>Year</th>
                     @foreach (var year in Model.Years)
                     {
                         <th>@year</th>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">Rank</td>
                     @foreach (var rank in Model.Ranks)
                     {
                         <td>@rank</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">Braemar</td>
                     @foreach (var braemar in Model.BraemarThrows)
                     {
                         <td>@Html.Raw(@braemar)</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">Open</td>
                     @foreach (var open in Model.OpenThrows)
                     {
                         <td>@Html.Raw(@open)</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">HWFD</td>
                     @foreach (var heavy in Model.HeavyWeightThrows)
                     {
                         <td>@Html.Raw(@heavy)</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">LWFD</td>
                     @foreach (var light in Model.LightWeightThrows)
                     {
                         <td>@Html.Raw(@light)</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">HH</td>
                     @foreach (var heavyHammer in Model.HeavyHammerThrows)
                     {
                         <td>@Html.Raw(@heavyHammer)</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">LH</td>
                     @foreach (var lightHammer in Model.LightHammerThrows)
                     {
                         <td>@Html.Raw(@lightHammer)</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">Caber</td>
                     @foreach (var caber in Model.CaberPoints)
                     {
                         <td>@caber</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">Sheaf</td>
                     @foreach (var sheaf in Model.SheafThrows)
                     {
                         <td>@Html.Raw(@sheaf)</td>
                     }
                 </tr>
                 <tr>
+                    <td class="throw-label">WFH</td>
                     @foreach (var wfh in Model.WfhThrows)
                     {
                         <td>@Html.Raw(@wfh)</td>

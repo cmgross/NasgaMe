@@ -17,10 +17,6 @@ textarea {
 }
 
 
-.throw-label {
-    font-weight: bold;
-}
-
 .table-responsive > .fixed-column {
     position: absolute;
     display: inline-block;
@@ -29,11 +25,31 @@ textarea {
 }
 
 .results-table {
-        background-color: #303030;
+    background-color: #303030;
+}
+
+.results {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.throws {
+    margin-right: 0;
+    padding-right: 0;
+    
 }
 
 @media(min-width:768px) {
     .table-responsive > .fixed-column {
         display: none;
     }
+}
+
+.throw-label {
+    font-weight: bold;
+   
+}
+
+.no-right-border {
+     border-right: 0;
 }
