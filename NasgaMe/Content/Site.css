@@ -28,17 +28,6 @@ textarea {
     background-color: #303030;
 }
 
-.results {
-    margin-left: 0;
-    padding-left: 0;
-}
-
-.throws {
-    margin-right: 0;
-    padding-right: 0;
-    width: 90px;
-}
-
 @media(min-width:768px) {
     .table-responsive > .fixed-column {
         display: none;
@@ -48,8 +37,4 @@ textarea {
 .throw-label {
     font-weight: bold;
    
-}
-
-.no-right-border {
-     border-right: 0;
 }
