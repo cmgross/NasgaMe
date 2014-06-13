@@ -42,7 +42,7 @@
                     "</tr>"
                 );
                 $.bootstrapSortable(true);
-                clone();
+                //clone();
             },
             complete: function () {
                 $.unblockUI();
@@ -57,7 +57,7 @@
         $.bootstrapSortable(true);
         var $cloneTable = $("#clonedTable");
         $cloneTable.remove();
-        clone();
+        //clone();
     });
 
     function clone() {
