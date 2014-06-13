@@ -32,7 +32,7 @@ namespace NasgaMe.Models
             Name = nameAndClassSplit[0].Trim();
             Class = nameAndClassSplit[1].Trim();
             Records = new List<Record>();
-            var athleteRankings = DatabaseService.GetAthleteRankings(Name, Class); //TODO 3 Cache this
+            var athleteRankings = DatabaseService.GetAthleteRankings(Name, Class);
             AllTimeRecords(athleteRankings);
             CreateRecords(athleteRankings);
         }

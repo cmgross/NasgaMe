@@ -1,0 +1,54 @@
+﻿@model NasgaMe.Models.Search
+<div class="well">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "addForm", role = "form", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        <fieldset>
+            <legend>Add Athlete</legend>
+            <div class="form-group">
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(m => m.NameAndClass, new { @id = "NameAndClass", @class = "form-control", @placeholder = "Athlete Name", @data_provide = "typeahead", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10">
+                    @*<button class="btn btn-default">Clear</button>*@
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+            @Html.ValidationSummary()
+        </fieldset>
+    }
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Athlete PR Comparison</h3>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-condensed results-table text-center" id="tbAthletePRs">
+                <tr>
+                    <th></th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Class</th>
+                    <th class="text-center">Braemar</th>
+                    <th class="text-center">Open</th>
+                    <th class="text-center">HWFD</th>
+                    <th class="text-center">LWFD</th>
+                    <th class="text-center">HH</th>
+                    <th class="text-center">LH</th>
+                    <th class="text-center">Caber</th>
+                    <th class="text-center">Sheaf</th>
+                    <th class="text-center">WFH</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/search")
+    @Scripts.Render("~/bundles/compare")
+}

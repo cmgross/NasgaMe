@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using NasgaMe.Models;
+using Newtonsoft.Json;
 using ServiceStack.Mvc;
 using NasgaMe.DataLayer;
 
@@ -11,7 +12,13 @@ namespace NasgaMe.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
-        public ActionResult Index()  
+        public ActionResult Index()
+        {
+            return View(new Search());
+        }
+
+        [HttpGet]
+        public ActionResult Compare()
         {
             return View(new Search());
         }
@@ -23,7 +30,12 @@ namespace NasgaMe.Controllers
             if (!ModelState.IsValid) return View("Error");
             var athlete = new Athlete(search.NameAndClass);
             var athleteRecordsViewModel = new AthleteRecordsViewModel(athlete);
-            return View("Results", athleteRecordsViewModel); 
+            return View("Results", athleteRecordsViewModel);
+        }
+
+        [HttpPost]
+        public void Compare(Search search)
+        {
         }
 
         [HttpGet]
@@ -42,7 +54,26 @@ namespace NasgaMe.Controllers
                 Data = results.ToArray(),
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-        }//TODO 6 later later: flight compare
+        }
+
+        [HttpGet]
+        public JsonResult GetAthletePRs(string nameAndClass)
+        {
+            if (nameAndClass == String.Empty) return new JsonResult
+            {
+                Data = string.Empty.ToArray(),
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+            var athlete = new Athlete(nameAndClass);
+            var jsonAthletePRs = new JsonAthletePRs(athlete);
+
+            return new JsonResult
+            {
+                Data = JsonConvert.SerializeObject(jsonAthletePRs),
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
 
         protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
         {

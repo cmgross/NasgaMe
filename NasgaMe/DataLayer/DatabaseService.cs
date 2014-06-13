@@ -73,6 +73,7 @@ namespace NasgaMe.DataLayer
             return status ?? new SystemStatus {Repopulate = true};
         }
 
+        [Cache]
         public static List<AthleteRanking> GetAthleteRankings(string name, string athleteClass)
         {
             using (var db = MvcApplication.DbFactory.OpenDbConnection())
