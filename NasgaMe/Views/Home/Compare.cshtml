@@ -26,26 +26,29 @@
         <h3 class="panel-title">Athlete PR Comparison</h3>
     </div>
     <div class="panel-body">*@
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-condensed results-table text-center" id="tbAthletePRs">
-                <tr>
-                    <th></th>
-                    <th class="text-center">Name</th>
-                    <th class="text-center">Class</th>
-                    <th class="text-center">Braemar</th>
-                    <th class="text-center">Open</th>
-                    <th class="text-center">HWFD</th>
-                    <th class="text-center">LWFD</th>
-                    <th class="text-center">HH</th>
-                    <th class="text-center">LH</th>
-                    <th class="text-center">Caber</th>
-                    <th class="text-center">Sheaf</th>
-                    <th class="text-center">WFH</th>
-                </tr>
-            </table>
-        </div>
-    @*</div>
-</div>*@
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-condensed results-table text-center sortable" id="tbAthletePRs">
+        <thead>
+            <tr>
+                <th data-defaultsort="disabled"></th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Class</th>
+                <th class="text-center">Braemar</th>
+                <th class="text-center">Open</th>
+                <th class="text-center">HWFD</th>
+                <th class="text-center">LWFD</th>
+                <th class="text-center">HH</th>
+                <th class="text-center">LH</th>
+                <th class="text-center">Caber</th>
+                <th class="text-center">Sheaf</th>
+                <th class="text-center">WFH</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+@*</div>
+    </div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

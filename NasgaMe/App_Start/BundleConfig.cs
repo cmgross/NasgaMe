@@ -33,10 +33,13 @@ namespace NasgaMe
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap3-typeahead.min.js"));
+                      "~/Scripts/bootstrap3-typeahead.min.js",
+                      "~/Scripts/bootstrap-sortable.js"
+                      ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
+                      "~/Content/bootstrap-sortable.css",
                       "~/Content/Site.css"));
 
             // Set EnableOptimizations to false for debugging. For more information,

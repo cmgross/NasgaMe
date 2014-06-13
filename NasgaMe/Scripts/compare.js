@@ -25,7 +25,7 @@
             success: function (data) {
                 var athlete = $.parseJSON(data);
                 var link = "<a href='javascript:;' class='delete'>[X]</a>";
-                $("#tbAthletePRs").append(
+                $("#tbAthletePRs tbody").append(
                     "<tr><td>" + link + "</td>" +
                     "<td>" + athlete.Name + "</td>" +
                     "<td>" + athlete.Class + "</td>" +
@@ -40,6 +40,7 @@
                     "<td>" + athlete.Wfh + "</td>" +
                     "</tr>"
                 );
+                $.bootstrapSortable(true);
                 //copy delete and name columns to be fixed
             },
             complete: function () {

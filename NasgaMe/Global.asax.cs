@@ -33,7 +33,6 @@ namespace NasgaMe
 				db.CreateTables(overwrite, typeof(SystemStatus));
 			}
 
-			//TODO 1.) Compare View: sortable events via clicking
 			//TODO 2.) Compare View: copy delete and athlete name column so that they don't scroll using nth-child(X) selector
 			//TODO 3.) refactor below to business layer aspect (and separate/simplify methods to do one thing, ie no database calls in method that does something else), and add to controllers so that updates are checked every load but only done once per day
 			//TODO 4.) uninstall/reinstall ServiceStack, provide API to return athlete records as json array: nasga.me/athlete/{name}/{class}
