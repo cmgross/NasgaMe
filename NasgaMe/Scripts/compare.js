@@ -26,8 +26,9 @@
                 var athlete = $.parseJSON(data);
                 var link = "<a href='javascript:;' class='delete'>[X]</a>";
                 $("#tbAthletePRs tbody").append(
-                    "<tr><td>" + link + "</td>" +
+                    "<tr>" +
                     "<td>" + athlete.Name + "</td>" +
+                    "<td>" + link + "</td>" +
                     "<td>" + athlete.Class + "</td>" +
                     "<td>" + athlete.Braemar + "</td>" +
                     "<td>" + athlete.Open + "</td>" +
@@ -41,7 +42,7 @@
                     "</tr>"
                 );
                 $.bootstrapSortable(true);
-                //copy delete and name columns to be fixed
+                clone();
             },
             complete: function () {
                 $.unblockUI();
@@ -53,5 +54,23 @@
     $("#tbAthletePRs").on('click', '.delete', function (e) {
         e.preventDefault();
         $(this).closest("tr").remove();
+        $.bootstrapSortable(true);
+        var $cloneTable = $("#clonedTable");
+        $cloneTable.remove();
+        clone();
     });
+
+    function clone() {
+        var $cloneTable = $("#clonedTable");
+        $cloneTable.remove();
+        var $table = $("#tbAthletePRs");
+        $table.css("z-index", 1);
+        var $fixedColumn = $table.clone().prop({ id: "clonedTable", name: "clonedTable" }).insertBefore($table).addClass("fixed-column");
+        $fixedColumn.find('th:not(:first-child),td:not(:first-child)').remove();
+        $fixedColumn.find('tr').each(function (i, elem) {
+            $(this).height($table.find('tr:eq(' + i + ')').height());
+        });
+        $cloneTable.css("z-index", 2);
+        //$fixedColumn.find('th:not(:nth-child(-n+2)),td:not(:nth-child(-n+2))').remove(); 
+    }
 });

@@ -22,6 +22,7 @@ textarea {
     display: inline-block;
     width: auto;
     border-right: 1px solid #ddd;
+    background-color: #303030;
 }
 
 .results-table {

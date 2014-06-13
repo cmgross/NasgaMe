@@ -12,7 +12,6 @@
             </div>
             <div class="form-group">
                 <div class="col-lg-10">
-                    @*<button class="btn btn-default">Clear</button>*@
                     <button type="submit" class="btn btn-primary">Add</button>
                 </div>
             </div>
@@ -21,17 +20,12 @@
     }
 </div>
 
-@*<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Athlete PR Comparison</h3>
-    </div>
-    <div class="panel-body">*@
 <div class="table-responsive">
-    <table class="table table-bordered table-hover table-condensed results-table text-center sortable" id="tbAthletePRs">
+    <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbAthletePRs">
         <thead>
             <tr>
-                <th data-defaultsort="disabled"></th>
                 <th class="text-center">Name</th>
+                <th data-defaultsort="disabled"></th>
                 <th class="text-center">Class</th>
                 <th class="text-center">Braemar</th>
                 <th class="text-center">Open</th>
@@ -47,8 +41,6 @@
         <tbody></tbody>
     </table>
 </div>
-@*</div>
-    </div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
