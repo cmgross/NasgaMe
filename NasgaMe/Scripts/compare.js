@@ -27,8 +27,8 @@
                 var link = "<a href='javascript:;' class='delete'>[X]</a>";
                 $("#tbAthletePRs tbody").append(
                     "<tr>" +
-                    "<td>" + athlete.Name + "</td>" +
                     "<td>" + link + "</td>" +
+                    "<td>" + athlete.Name + "</td>" +
                     "<td>" + athlete.Class + "</td>" +
                     "<td>" + athlete.Braemar + "</td>" +
                     "<td>" + athlete.Open + "</td>" +
@@ -55,8 +55,8 @@
         e.preventDefault();
         $(this).closest("tr").remove();
         $.bootstrapSortable(true);
-        var $cloneTable = $("#clonedTable");
-        $cloneTable.remove();
+        //var $cloneTable = $("#clonedTable");
+        //$cloneTable.remove();
         //clone();
     });
 
