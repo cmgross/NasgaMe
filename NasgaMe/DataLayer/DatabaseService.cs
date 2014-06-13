@@ -63,6 +63,7 @@ namespace NasgaMe.DataLayer
             }
         }
 
+        [Cache]
         public static SystemStatus GetSystemStatus()
         {
             SystemStatus status;

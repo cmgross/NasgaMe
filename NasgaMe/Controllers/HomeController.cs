@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using NasgaMe.Aspects;
 using NasgaMe.Models;
 using Newtonsoft.Json;
 using ServiceStack.Mvc;
@@ -11,12 +12,14 @@ namespace NasgaMe.Controllers
 {
     public class HomeController : Controller
     {
+        [UpdateData]
         [HttpGet]
         public ActionResult Index()
         {
             return View(new Search());
         }
 
+        [UpdateData]
         [HttpGet]
         public ActionResult Compare()
         {
