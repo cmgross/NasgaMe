@@ -76,7 +76,8 @@ table.sortable thead th:not([data-defaultsort=disabled]) {
 }
 
 table.sortable thead th:hover:not([data-defaultsort=disabled]) {
-    background: #efefef;
+     background: #464545;
+    /*background: #efefef; default color, changed above to match current bootswatch*/
 }
 
 table.sortable thead th div.mozilla {
