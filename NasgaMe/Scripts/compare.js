@@ -64,7 +64,6 @@
 
     function toggleTable() {
         var rowCount = $("#tbAthletePRs tbody tr").length;
-        console.log(rowCount);
         if (rowCount > 0) {
             $("#tbAthletePRs").removeClass("hide");
         } else {
