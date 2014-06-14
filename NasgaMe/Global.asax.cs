@@ -32,7 +32,6 @@ namespace NasgaMe
 				db.CreateTables(overwrite, typeof(AthleteRanking));
 				db.CreateTables(overwrite, typeof(SystemStatus));
 			}
-            //TODO 2.) hide table until tbody elements count > 0
 			//TODO 3.) uninstall/reinstall ServiceStack, provide API to return athlete records as json array: nasga.me/athlete/{name}/{class}
 		}
 	}

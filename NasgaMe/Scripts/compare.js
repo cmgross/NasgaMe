@@ -43,6 +43,7 @@
                 );
                 $.bootstrapSortable(true);
                 //clone();
+                toggleTable();
             },
             complete: function () {
                 $.unblockUI();
@@ -55,11 +56,21 @@
         e.preventDefault();
         $(this).closest("tr").remove();
         $.bootstrapSortable(true);
+        toggleTable();
         //var $cloneTable = $("#clonedTable");
         //$cloneTable.remove();
         //clone();
     });
 
+    function toggleTable() {
+        var rowCount = $("#tbAthletePRs tbody tr").length;
+        console.log(rowCount);
+        if (rowCount > 0) {
+            $("#tbAthletePRs").removeClass("hide");
+        } else {
+            $("#tbAthletePRs").addClass("hide");
+        }
+    }
     function clone() {
         var $cloneTable = $("#clonedTable");
         $cloneTable.remove();

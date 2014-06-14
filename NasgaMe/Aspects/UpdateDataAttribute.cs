@@ -16,7 +16,6 @@ namespace NasgaMe.Aspects
             var systemStatus = DatabaseService.GetSystemStatus();
             if (systemStatus.Repopulate) systemStatus.CurrentYearLastUpdated = BusinessLayer.RepopulateDatabase();
             if (systemStatus.CurrentYearLastUpdated.Date < DateTime.Now.Date) BusinessLayer.UpdateCurrentYearRankings();
-
         }
     }
 }
