@@ -198,6 +198,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap3-typeahead.min.js" />
+    <Content Include="Scripts\compare2.js" />
     <Content Include="Scripts\compare.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -237,6 +238,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Results.cshtml" />
     <Content Include="Views\Home\Compare.cshtml" />
+    <Content Include="Views\Home\Compare2.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

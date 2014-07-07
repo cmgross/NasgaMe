@@ -26,6 +26,13 @@ namespace NasgaMe.Controllers
             return View(new Search());
         }
 
+        //[UpdateData]
+        [HttpGet]
+        public ActionResult Compare2()
+        {
+            return View(new Search());
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(Search search)
