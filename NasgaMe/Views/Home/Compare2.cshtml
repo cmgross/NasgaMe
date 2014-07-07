@@ -20,40 +20,26 @@
     }
 </div>
 
-@*<div class="table-responsive">
-        <table class="table table-bordered table-hover table-condensed text-center sortable results-table hide" id="tbAthletePRs">
-            <thead>
-                <tr>
-                    <th data-defaultsort="disabled"></th>
-                    <th class="text-center">Name</th>
-                    <th class="text-center">Class</th>
-                    <th class="text-center">Braemar</th>
-                    <th class="text-center">Open</th>
-                    <th class="text-center">HWFD</th>
-                    <th class="text-center">LWFD</th>
-                    <th class="text-center">HH</th>
-                    <th class="text-center">LH</th>
-                    <th class="text-center">Caber</th>
-                    <th class="text-center">Sheaf</th>
-                    <th class="text-center">WFH</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>*@
-
-<div id="dAthletePRs" class="hide">
-    <ul id="myTab" class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#braemar" role="tab" data-toggle="tab">Braemar</a></li>
-        <li><a href="#open" role="tab" data-toggle="tab">Open</a></li>
-        <li><a href="#hwfd" role="tab" data-toggle="tab">HWFD</a></li>
-        <li><a href="#lwfd" role="tab" data-toggle="tab">LWFD</a></li>
-        <li><a href="#hh" role="tab" data-toggle="tab">HH</a></li>
-        <li><a href="#lh" role="tab" data-toggle="tab">LH</a></li>
-        <li><a href="#caber" role="tab" data-toggle="tab">Caber</a></li>
-        <li><a href="#sheaf" role="tab" data-toggle="tab">Sheaf</a></li>
-        <li><a href="#wfh" role="tab" data-toggle="tab">WFH</a></li>
-    </ul>
+<div id="dAthletePRs" class="hide container">
+    <div class="scroller scroller-left" style="display: none;">
+        <i class="glyphicon glyphicon-chevron-left white"></i>
+    </div>
+    <div class="scroller scroller-right" style="display: block;">
+        <i class="glyphicon glyphicon-chevron-right white"></i>
+    </div>
+    <div class="wrapper">
+        <ul id="myTab" class="nav nav-tabs list" role="tablist">
+            <li class="active"><a href="#braemar" role="tab" data-toggle="tab">Braemar</a></li>
+            <li><a href="#open" role="tab" data-toggle="tab">Open</a></li>
+            <li><a href="#hwfd" role="tab" data-toggle="tab">HWFD</a></li>
+            <li><a href="#lwfd" role="tab" data-toggle="tab">LWFD</a></li>
+            <li><a href="#hh" role="tab" data-toggle="tab">HH</a></li>
+            <li><a href="#lh" role="tab" data-toggle="tab">LH</a></li>
+            <li><a href="#caber" role="tab" data-toggle="tab">Caber</a></li>
+            <li><a href="#sheaf" role="tab" data-toggle="tab">Sheaf</a></li>
+            <li><a href="#wfh" role="tab" data-toggle="tab">WFH</a></li>
+        </ul>
+    </div>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="braemar">
             <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbBraemar">
@@ -164,6 +150,7 @@
             </table>
         </div>
     </div>
+
 </div>
 @* NEED TO hard cell widths *@
 
