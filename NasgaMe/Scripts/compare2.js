@@ -1,78 +1,24 @@
 ﻿$(document).ready(function () {
-    $('#myTab a').click(function(e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-
-    $("#addForm2").submit(function(event) {
-        event.preventDefault();
-        $("#dAthletePRs").removeClass("hide");
-    });
-
-    var hidWidth;
-    var scrollBarWidths = 40;
-
-    var widthOfList = function () {
-        var itemsWidth = 0;
-        $('.list li').each(function () {
-            var itemWidth = $(this).outerWidth();
-            itemsWidth += itemWidth;
-        });
-        return itemsWidth;
-    };
-
-    var widthOfHidden = function () {
-        return (($('.wrapper').outerWidth()) - widthOfList() - getLeftPosi()) - scrollBarWidths;
-    };
-
-    var getLeftPosi = function () {
-        return $('.list').position().left;
-    };
-
-    var reAdjust = function () {
-        if (($('.wrapper').outerWidth()) < widthOfList()) {
-            $('.scroller-right').show();
+    $(window).resize(function () {
+        if ($("#ddlThrows").css("display") == "none") {
+            $("#ddlThrows").val(String.empty).change();
+            $(".throwsColumn").removeClass("showCell");
+            $(".throwsColumn").removeClass("hide");
         }
-        else {
-            $('.scroller-right').hide();
-        }
-
-        if (getLeftPosi() < 0) {
-            $('.scroller-left').show();
-        }
-        else {
-            $('.item').animate({ left: "-=" + getLeftPosi() + "px" }, 'slow');
-            $('.scroller-left').hide();
-        }
-    }
-
-    reAdjust();
-
-    $(window).on('resize', function (e) {
-        reAdjust();
     });
 
-    $('.scroller-right').click(function () {
-
-        $('.scroller-left').fadeIn('slow');
-        $('.scroller-right').fadeOut('slow');
-
-        $('.list').animate({ left: "+=" + widthOfHidden() + "px" }, 'slow', function () {
-
-        });
+    $("#ddlThrows").change(function () {
+        var selectedThrow = $("#ddlThrows").val();
+        $(".throwsColumn").addClass("hide");
+        $(".throwsColumn").removeClass("showCell");
+        if (selectedThrow === "") return;
+        var selectedThrowClass = "." + selectedThrow;
+        $(selectedThrowClass).removeClass("hide");
+        $(selectedThrowClass).addClass("showCell");
     });
 
-    $('.scroller-left').click(function () {
 
-        $('.scroller-right').fadeIn('slow');
-        $('.scroller-left').fadeOut('slow');
-
-        $('.list').animate({ left: "-=" + getLeftPosi() + "px" }, 'slow', function () {
-
-        });
-    });
-    //OLD
-    $("#addForm").submit(function (event) {
+    $("#addForm2").submit(function (event) {
         event.preventDefault();
         var url = "/Home/GetAthletePRs";
         var nameAndClass = $("#NameAndClass").val();
@@ -103,15 +49,15 @@
                     "<td>" + link + "</td>" +
                     "<td>" + athlete.Name + "</td>" +
                     "<td>" + athlete.Class + "</td>" +
-                    "<td>" + athlete.Braemar + "</td>" +
-                    "<td>" + athlete.Open + "</td>" +
-                    "<td>" + athlete.HeavyWeight + "</td>" +
-                    "<td>" + athlete.LightWeight + "</td>" +
-                    "<td>" + athlete.HeavyHammer + "</td>" +
-                    "<td>" + athlete.LightHammer + "</td>" +
-                    "<td>" + athlete.Caber + "</td>" +
-                    "<td>" + athlete.Sheaf + "</td>" +
-                    "<td>" + athlete.Wfh + "</td>" +
+                    "<td class='throwsColumn Braemar'>" + athlete.Braemar + "</td>" +
+                    "<td class='throwsColumn Open'>" + athlete.Open + "</td>" +
+                    "<td class='throwsColumn HWFD'>" + athlete.HeavyWeight + "</td>" +
+                    "<td class='throwsColumn LWFD'>" + athlete.LightWeight + "</td>" +
+                    "<td class='throwsColumn HH'>" + athlete.HeavyHammer + "</td>" +
+                    "<td class='throwsColumn LH'>" + athlete.LightHammer + "</td>" +
+                    "<td class='throwsColumn Caber'>" + athlete.Caber + "</td>" +
+                    "<td class='throwsColumn Sheaf'>" + athlete.Sheaf + "</td>" +
+                    "<td class='throwsColumn WFH'>" + athlete.Wfh + "</td>" +
                     "</tr>"
                 );
                 $.bootstrapSortable(true);
@@ -141,6 +87,7 @@
             $("#tbAthletePRs").removeClass("hide");
         } else {
             $("#tbAthletePRs").addClass("hide");
+            $("#ddlThrows").val(String.empty).change();
         }
     }
     function clone() {

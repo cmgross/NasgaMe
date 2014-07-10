@@ -19,140 +19,29 @@
         </fieldset>
     }
 </div>
-
-<div id="dAthletePRs" class="hide container">
-    <div class="scroller scroller-left" style="display: none;">
-        <i class="glyphicon glyphicon-chevron-left white"></i>
-    </div>
-    <div class="scroller scroller-right" style="display: block;">
-        <i class="glyphicon glyphicon-chevron-right white"></i>
-    </div>
-    <div class="wrapper">
-        <ul id="myTab" class="nav nav-tabs list" role="tablist">
-            <li class="active"><a href="#braemar" role="tab" data-toggle="tab">Braemar</a></li>
-            <li><a href="#open" role="tab" data-toggle="tab">Open</a></li>
-            <li><a href="#hwfd" role="tab" data-toggle="tab">HWFD</a></li>
-            <li><a href="#lwfd" role="tab" data-toggle="tab">LWFD</a></li>
-            <li><a href="#hh" role="tab" data-toggle="tab">HH</a></li>
-            <li><a href="#lh" role="tab" data-toggle="tab">LH</a></li>
-            <li><a href="#caber" role="tab" data-toggle="tab">Caber</a></li>
-            <li><a href="#sheaf" role="tab" data-toggle="tab">Sheaf</a></li>
-            <li><a href="#wfh" role="tab" data-toggle="tab">WFH</a></li>
-        </ul>
-    </div>
-    <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active" id="braemar">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbBraemar">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">Braemar</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="open">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbOpen">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">Open</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="hwfd">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbHwfd">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">HWFD</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="lwfd">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbLwfd">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">LWFD</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="hh">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbHh">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">HH</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="lh">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbLh">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">LH</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="caber">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbCaber">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">Caber</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="sheaf">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbSheaf">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">Sheaf</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="wfh">
-            <table class="table table-bordered table-hover table-condensed text-center sortable results-table" id="tbWfh">
-                <thead>
-                    <tr>
-                        <th data-defaultsort="disabled"></th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">Class</th>
-                        <th class="text-center">WFH</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-
-</div>
-@* NEED TO hard cell widths *@
+@Html.DropDownList("ddlThrows", Model.Throws, new { @class = "form-control" })
+<br/>
+@*<div class="table-responsive hide" id="dAthletePRs">*@
+    <table class="table table-bordered table-hover table-condensed text-center sortable results-table hide" id="tbAthletePRs">
+        <thead>
+            <tr>
+                <th data-defaultsort="disabled"></th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Class</th>
+                <th class="text-center throwsColumn Braemar">Braemar</th>
+                <th class="text-center throwsColumn Open">Open</th>
+                <th class="text-center throwsColumn HWFD">HWFD</th>
+                <th class="text-center throwsColumn LWFD">LWFD</th>
+                <th class="text-center throwsColumn HH">HH</th>
+                <th class="text-center throwsColumn LH">LH</th>
+                <th class="text-center throwsColumn Caber">Caber</th>
+                <th class="text-center throwsColumn Sheaf">Sheaf</th>
+                <th class="text-center throwsColumn WFH">WFH</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+@*</div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

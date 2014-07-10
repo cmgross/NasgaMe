@@ -26,7 +26,7 @@ namespace NasgaMe.Controllers
             return View(new Search());
         }
 
-        //[UpdateData]
+        [UpdateData]
         [HttpGet]
         public ActionResult Compare2()
         {
